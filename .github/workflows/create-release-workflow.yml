@@ -4,7 +4,10 @@ on:
       - master
     # Sequence of patterns matched against refs/tags
      tags:
-      - '^[v,V]?([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?\.(20\d{2})(\d{2})(\d{2})$'
+      - 'v[0-9]+.[0-9]+.[0-9]+.*'
+      - 'V[0-9]+.[0-9]+.[0-9]+.*'
+      - '[0-9]+.[0-9]+.[0-9]+.*'
+      
 name: Create Release
 jobs:
   build:
@@ -19,8 +22,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: ${{ github.ref.tag }}
-          release_name: Release ${{ github.ref.tag }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           body_path: ./CHANGELOG.md
           draft: false
           prerelease: false
